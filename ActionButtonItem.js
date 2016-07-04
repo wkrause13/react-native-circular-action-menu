@@ -6,7 +6,6 @@ import {
   TouchableOpacity,
   Dimensions,
 } from 'react-native';
-const { width } = Dimensions.get('window');
 
 const alignItemsMap = {
   center: 'center',
@@ -35,23 +34,39 @@ export default class ActionButtonItem extends Component {
   }
 
   render() {
+    const offsetX = this.props.radius * Math.cos(this.props.angle);
+    const offsetY = this.props.radius * Math.sin(this.props.angle);
     return (
       <Animated.View
-        style={[styles.actionButtonWrap, {
-            alignItems: this.state.alignItems,
+        style={[this.props.style, {
             opacity: this.props.anim,
+            width: actionBtnWidth,
+            height: actionBtnWidth,
             transform: [{
               translateY: this.props.anim.interpolate({
                 inputRange: [0, 1],
-                outputRange: [40, 0],
-              }),
-            }],
-          },
-          ]}
+                outputRange: [0, offsetY],
+              })
+            }, {
+              translateX: this.props.anim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, offsetX],
+              })}, {
+              rotate: this.props.anim.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0deg', '720deg'],
+              })},
+{
+            scale: this.props.anim.interpolate({
+                inputRange: [0, 1],
+                outputRange: [0, 1],
+              })}
+            ]
+          }]}
       >
         <TouchableOpacity style={{flex:1}} activeOpacity={this.props.activeOpacity || 0.85} onPress={this.props.onPress}>
           <View
-            style={[styles.actionButton, this.props.style, {
+            style={[styles.actionButton,{
                 width: actionBtnWidth,
                 height: actionBtnWidth,
                 borderRadius: actionBtnWidth / 2,
@@ -68,9 +83,6 @@ export default class ActionButtonItem extends Component {
 }
 
 const styles = StyleSheet.create({
-  actionButtonWrap: {
-    width,
-  },
   actionButton: {
     justifyContent: 'center',
     alignItems: 'center',
@@ -83,5 +95,7 @@ const styles = StyleSheet.create({
     },
     shadowColor: '#444',
     shadowRadius: 1,
+    backgroundColor: 'red',
+    position: 'absolute',
   },
 });

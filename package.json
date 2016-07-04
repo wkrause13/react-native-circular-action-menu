@@ -1,28 +1,31 @@
 {
   "name": "react-native-action-button",
-  "version": "1.1.9",
-  "description": "customizable multi-action-button component for react-native",
+  "version": "0.1.0",
+  "description": "customizable circular action menu component for react-native",
   "main": "ActionButton.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mastermoo/react-native-action-button.git"
+    "url": "https://github.com/geremih/react-native-circular-action-menu.git"
   },
   "keywords": [
     "react-native",
     "action-button",
     "float-button",
-    "multi-action-button"
+      "multi-action-button",
+      "circular-menu",
+      "arc-menu",
+      "satellite-menu"
   ],
   "peerDependencies": {
     "react-native": ">=0.11"
   },
-  "author": "Yousef Kamawall",
+  "author": "Mihir Rege",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mastermoo/react-native-action-button/issues"
+    "url": "https://github.com/geremih/react-native-circular-action-menu/issues"
   },
-  "homepage": "https://github.com/mastermoo/react-native-action-button"
+  "homepage": "https://github.com/geremih/react-native-circular-action-menu"
 }

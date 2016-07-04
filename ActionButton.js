@@ -18,6 +18,9 @@ export default class ActionButton extends Component {
       btnOutRange: props.btnOutRange || props.buttonColor || 'rgba(0,0,0,1)',
       btnOutRangeTxt: props.btnOutRangeTxt || props.buttonTextColor || 'rgba(255,255,255,1)',
       anim: new Animated.Value(props.active ? 1 : 0),
+      startDegree: '180',
+      endDegree: '0',
+      radius: 100,
     }
 
     this.timeout = null;
@@ -57,7 +60,7 @@ export default class ActionButton extends Component {
   }
 
   getActionButtonStyles() {
-    return [styles.actionBarItem, this.getButtonSize()];
+    return [styles.actionBarItem, this.getButtonSize(), styles.actionsCenter];
   }
 
   getOrientation() {
@@ -79,7 +82,7 @@ export default class ActionButton extends Component {
   }
 
   getActionsStyle() {
-    return [ styles.actionsVertical, this.getOrientation() ];
+    return [styles.actionsCenter, this.getButtonSize()];
   }
 
 
@@ -158,6 +161,9 @@ export default class ActionButton extends Component {
   }
 
   _renderActions() {
+    const startRadian = this.state.startDegree * Math.PI / 180;
+    const endRadian = this.state.endDegree * Math.PI / 180;
+    const offset = (endRadian - startRadian) / 5;
     if (!this.state.active) return null;
 
     let actionButtons = this.props.children
@@ -167,31 +173,29 @@ export default class ActionButton extends Component {
     }
 
     return (
-        <TouchableOpacity
-          style={this.getActionsStyle()}
-          activeOpacity={1}
-          onPress={() => { this.reset() }}>
-          {actionButtons.map((ActionButton, index) => {
-            return (
-              <ActionButtonItem
-                key={index}
-                position={this.state.position}
-                anim={this.state.anim}
-                size={this.state.size}
-                btnColor={this.state.btnOutRange}
-                {...ActionButton.props}
-                onPress={() => {
-                  if (this.props.autoInactive){
-                    this.timeout = setTimeout(() => {
-                      this.reset();
-                    }, 200);
-                  }
-                  ActionButton.props.onPress();
-                }}
-              />
-            )
-          })}
-        </TouchableOpacity>
+      actionButtons.map((ActionButton, index) => {
+        return (
+          <ActionButtonItem
+            key={index}
+            position={this.state.position}
+            anim={this.state.anim}
+            size={this.state.size}
+            style={this.getActionsStyle()}
+            radius={this.state.radius}
+            angle={startRadian - index * offset}
+            btnColor={this.state.btnOutRange}
+            {...ActionButton.props}
+            onPress={() => {
+                if (this.props.autoInactive){
+                  this.timeout = setTimeout(() => {
+                    this.reset();
+                  }, 200);
+                }
+                ActionButton.props.onPress();
+              }}
+          />
+        )
+      })
     );
   }
 
@@ -262,7 +266,6 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     backgroundColor: 'transparent',
-    justifyContent: 'flex-end',
   },
   actionBarItem: {
     alignItems: 'center',
@@ -285,9 +288,9 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     position: 'relative',
   },
-  actionsVertical: {
-    flex: 1,
-    justifyContent: 'flex-end',
-    flexDirection: 'column',
+  actionsCenter: {
+    position: 'absolute',
+    left: 150,
+    bottom: 20,
   },
 });
