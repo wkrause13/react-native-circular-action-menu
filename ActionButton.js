@@ -7,9 +7,7 @@ import {
   Text,
   View,
   Animated,
-  Easing,
   TouchableOpacity,
-  PixelRatio,
   TouchableWithoutFeedback,
 } from 'react-native';
 import ActionButtonItem from './ActionButtonItem';
@@ -45,43 +43,27 @@ export default class ActionButton extends Component {
     };
   }
 
-  render() {
-    let backdrop;
-    if (this.state.active) {
-      backdrop = (
-        <TouchableWithoutFeedback
-          style={styles.overlay}
-          onPress={() => this.reset()}
-        >
-          <Animated.View
-            style={
-              {
-                backgroundColor: this.props.bgColor,
-                opacity: this.state.anim,
-                flex: 1,
-              }
-                  }
-          >
-            {this.props.backdrop}
-          </Animated.View>
-        </TouchableWithoutFeedback>
-      );
-    }
-    return (
-      <View
-        pointerEvents="box-none"
-        style={styles.overlay}
-      >
-        {backdrop}
-        <View
-          pointerEvents="box-none"
-          style={styles.overlay}
-        >
-          {this.props.children && this.renderActions()}
-          {this.renderButton()}
-        </View>
-      </View>
-    );
+
+  animateButton() {
+    if (this.state.active) this.reset();
+
+    Animated.spring(this.state.anim, {
+      toValue: 1,
+      duration: 750,
+    }).start();
+
+    this.setState({ active: true });
+  }
+
+  reset() {
+    Animated.spring(this.state.anim, {
+      toValue: 0,
+      duration: 750,
+    }).start();
+
+    setTimeout(() => {
+      this.setState({ active: false });
+    }, 250);
   }
 
   renderButton() {
@@ -100,29 +82,31 @@ export default class ActionButton extends Component {
             }}
         >
           <Animated.View
-            style={[styles.btn,
+            style={
+              [
+                styles.btn,
+                {
+                  width: this.props.size,
+                  height: this.props.size,
+                  borderRadius: this.props.size / 2,
+                  backgroundColor: this.state.anim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [this.props.buttonColor, this.props.btnOutRange]
+                  }),
+                  transform: [
                     {
-                      width: this.props.size,
-                      height: this.props.size,
-                      borderRadius: this.props.size / 2,
-                      backgroundColor: this.state.anim.interpolate({
+                      scale: this.state.anim.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [this.props.buttonColor, this.props.btnOutRange]
+                        outputRange: [1, this.props.outRangeScale]
                       }),
-                      transform: [
-                        {
-                          scale: this.state.anim.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: [1, this.props.outRangeScale]
-                          }),
-                        },
-                        {
-                          rotate: this.state.anim.interpolate({
-                            inputRange: [0, 1],
-                            outputRange: ['0deg', this.props.degrees + 'deg']
-                          }),
-                        }],
-                    }]}>
+                    },
+                    {
+                      rotate: this.state.anim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: ['0deg', this.props.degrees + 'deg']
+                      }),
+                    }],
+                }]}>
             {this.renderButtonIcon()}
           </Animated.View>
         </TouchableOpacity>
@@ -183,26 +167,44 @@ export default class ActionButton extends Component {
     );
   }
 
-  animateButton() {
-    if (this.state.active) return this.reset();
 
-    Animated.spring(this.state.anim, {
-      toValue: 1,
-      duration: 750,
-    }).start();
-
-    this.setState({ active: true });
-  }
-
-  reset() {
-    Animated.spring(this.state.anim, {
-      toValue: 0,
-      duration: 750,
-    }).start();
-
-    setTimeout(() => {
-      this.setState({ active: false });
-    }, 250);
+  render() {
+    let backdrop;
+    if (this.state.active) {
+      backdrop = (
+        <TouchableWithoutFeedback
+          style={styles.overlay}
+          onPress={() => this.reset()}
+        >
+          <Animated.View
+            style={
+              {
+                backgroundColor: this.props.bgColor,
+                opacity: this.state.anim,
+                flex: 1,
+              }
+                  }
+          >
+            {this.props.backdrop}
+          </Animated.View>
+        </TouchableWithoutFeedback>
+      );
+    }
+    return (
+      <View
+        pointerEvents="box-none"
+        style={styles.overlay}
+      >
+        {backdrop}
+        <View
+          pointerEvents="box-none"
+          style={styles.overlay}
+        >
+          {this.props.children && this.renderActions()}
+          {this.renderButton()}
+        </View>
+      </View>
+    );
   }
 }
 
