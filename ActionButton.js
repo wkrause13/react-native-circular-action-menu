@@ -45,11 +45,14 @@ export default class ActionButton extends Component {
 
 
   animateButton() {
-    if (this.state.active) this.reset();
+    if (this.state.active) {
+      this.reset();
+      return;
+    }
 
     Animated.spring(this.state.anim, {
       toValue: 1,
-      duration: 750,
+      duration: 250,
     }).start();
 
     this.setState({ active: true });
@@ -58,7 +61,7 @@ export default class ActionButton extends Component {
   reset() {
     Animated.spring(this.state.anim, {
       toValue: 0,
-      duration: 750,
+      duration: 250,
     }).start();
 
     setTimeout(() => {
@@ -75,7 +78,7 @@ export default class ActionButton extends Component {
           activeOpacity={0.85}
           onLongPress={this.props.onLongPress}
           onPress={() => {
-              this.props.onPress()
+              this.props.onPress();
               if (this.props.children) {
                 this.animateButton();
               }
@@ -147,7 +150,7 @@ export default class ActionButton extends Component {
             key={index}
             position={this.props.position}
             anim={this.state.anim}
-            size={this.props.size}
+            size={this.props.itemSize}
             style={this.getActionsStyle()}
             radius={this.props.radius}
             angle={startRadian - index * offset}
@@ -217,6 +220,7 @@ ActionButton.propTypes = {
   buttonColor: PropTypes.string,
   buttonTextColor: PropTypes.string,
   size: PropTypes.number,
+  itemSize: PropTypes.number,
   autoInactive: PropTypes.bool,
   onPress: PropTypes.func,
   backdrop: PropTypes.oneOfType([
@@ -239,7 +243,8 @@ ActionButton.defaultProps = {
   onPress: () => {},
   backdrop: false,
   degrees: 135,
-  size: 42,
+  size: 72,
+  itemSize: 36,
   startDegree: 180,
   endDegree: 0,
   radius: 100,
