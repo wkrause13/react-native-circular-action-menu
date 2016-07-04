@@ -1,21 +1,17 @@
-# react-native-action-button
-customizable multi-action-button component for react-native
-
-![react-native-action-button demo](http://i.giphy.com/26BkMir9IcAhqe4EM.gif)
-![react-native-action-button demo](http://i.giphy.com/xTcnTeW9BBXh8wMhLq.gif)
-![react-native-action-button demo](http://i.giphy.com/l0K7psuhDQGLeT3d6.gif)
-![react-native-action-button demo](http://i.giphy.com/xTcnSOtuet39cM46s0.gif)
+# react-native-circular-action-menu
+Path-esque circular action menu inspired by [CircularFloatingActionMenu](https://github.com/oguzbilgener/CircularFloatingActionMenu),
+forked from [react-native-action-button](https://github.com/mastermoo/react-native-action-button)
 
 ### Installation
 ```bash
-npm i react-native-action-button --save
+npm i react-native-circular-action-menu --save
 ```
 
 ### Usage
 
 First, require it from your app's JavaScript files with:
 ```bash
-import ActionButton from 'react-native-action-button';
+import ActionButton from 'react-native-circular-action-menu';
 ```
 
 ##### ActionButton
@@ -30,7 +26,7 @@ _The following Basic example can be found in `example/Basic`._
 
 ```js
 import React, { Component, StyleSheet, View } from 'react-native';
-import ActionButton from 'react-native-action-button';
+import ActionButton from 'react-native-circular-action-menu';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 
@@ -85,7 +81,6 @@ Also this example uses `react-native-vector-icons` for the button Icons.
 | ------------- |:-------------:|:------------:       | ----------- |
 | active        | boolean       | false               | action buttons visible or not
 | autoInactive  | boolean       | true                | Auto hide ActionButtons when ActionButton.Item is pressed.
-| type          | string        | "float"             | either `float` (bigger btns) or `tab` (smaller btns) + position changes
 | position      | string        | "right" / "center"  | one of: `left` `center` and `right`
 | bgColor       | string        | "transparent"       | background color when ActionButtons are visible
 | buttonColor   | string        | "rgba(0,0,0,1)"     | background color of the +Button **(must be rgba value!)**
@@ -103,8 +98,5 @@ Also this example uses `react-native-vector-icons` for the button Icons.
 ##### ActionButton.Item:
 | Property      | Type          | Default             | Description |
 | ------------- |:-------------:|:------------:       | ----------- |
-| title         | string        | undefined           | the title shown next to the button, not shown when empty
 | onPress       | func          | null                | **required** function, triggers when a button is tapped
 | buttonColor   | string        | same as + button    | background color of the Button
-| titleColor    | string        | "#444"              | color of title
-| titleBgColor  | string        | "white"             | background color of title

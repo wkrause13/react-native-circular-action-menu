@@ -30,24 +30,16 @@ export default class ActionButton extends Component {
 
   componentWillReceiveProps(nextProps) {
     this.setState({
-      ...nextProps
+      ...nextProps,
     });
   }
 
   setPositionAndSizeByType() {
     let position, offsetX, offsetY, size;
-
-    if (this.props.type == 'tab') {
-      position = 'center',
-      offsetX  = 10,
-      offsetY  = 4,
-      size     = 42;
-    } else {
-      position = 'right',
-      offsetX  = 30,
-      offsetY  = 30,
-      size     = 56;
-    }
+    position = 'center';
+    offsetX  = 10;
+    offsetY = 4;
+    size = 42;
 
     this.state.position = this.props.position || position;
     this.state.offsetX  = this.props.offsetX  || offsetX ;
@@ -184,7 +176,6 @@ export default class ActionButton extends Component {
               <ActionButtonItem
                 key={index}
                 position={this.state.position}
-                spacing={this.props.spacing}
                 anim={this.state.anim}
                 size={this.state.size}
                 btnColor={this.state.btnOutRange}
@@ -236,17 +227,12 @@ ActionButton.Item = ActionButtonItem;
 
 ActionButton.propTypes = {
   active: PropTypes.bool,
-
-  type: PropTypes.oneOf(['float', 'tab']),
   position: PropTypes.string,
-
   bgColor: PropTypes.string,
   buttonColor: PropTypes.string,
   buttonTextColor: PropTypes.string,
-
   offsetX : PropTypes.number,
   offsetY: PropTypes.number,
-  spacing: PropTypes.number,
   size: PropTypes.number,
   autoInactive: PropTypes.bool,
   onPress: PropTypes.func,
@@ -254,16 +240,13 @@ ActionButton.propTypes = {
     PropTypes.bool,
     PropTypes.object
 ]),
-  degrees: PropTypes.number
 };
 
 ActionButton.defaultProps = {
   active: false,
-  type: 'float',
   bgColor: 'transparent',
   buttonColor: 'rgba(0,0,0,1)',
   buttonTextColor: 'rgba(255,255,255,1)',
-  spacing: 20,
   outRangeScale: 1,
   autoInactive: true,
   onPress: () => {},
