@@ -1,6 +1,7 @@
 # react-native-circular-action-menu
-Path-esque circular action menu inspired by [CircularFloatingActionMenu](https://github.com/oguzbilgener/CircularFloatingActionMenu),
-forked from [react-native-action-button](https://github.com/mastermoo/react-native-action-button)
+Path-esque circular action menu inspired by [CircularFloatingActionMenu](https://github.com/oguzbilgener/CircularFloatingActionMenu).
+
+![react-native-circular-action-menu demo](http://i.giphy.com/l0HlQYcV8J0TnDprW.gif)
 
 ### Installation
 ```bash
