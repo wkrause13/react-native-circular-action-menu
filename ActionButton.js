@@ -1,5 +1,17 @@
-import React, { Component, PropTypes } from 'react';
-import { StyleSheet, Text, View, Animated, Easing, TouchableOpacity, PixelRatio } from 'react-native';
+import React, {
+  Component,
+  PropTypes,
+} from 'react';
+import {
+  StyleSheet,
+  Text,
+  View,
+  Animated,
+  Easing,
+  TouchableOpacity,
+  PixelRatio,
+  TouchableHighlight,
+} from 'react-native';
 import ActionButtonItem from './ActionButtonItem';
 
 const alignItemsMap = {
@@ -109,35 +121,43 @@ export default class ActionButton extends Component {
 
   _renderButton() {
     return (
-      <View style={this.getActionButtonStyles()}>
+      <View
+        style={this.getActionButtonStyles()}
+      >
         <TouchableOpacity
           activeOpacity={0.85}
           onLongPress={this.props.onLongPress}
           onPress={() => {
-            this.props.onPress()
-            if (this.props.children) this.animateButton()
-          }}>
+              this.props.onPress()
+              if (this.props.children) {
+                this.animateButton();
+              }
+            }}
+        >
           <Animated.View
-            style={[styles.btn, {
-              width: this.state.size,
-              height: this.state.size,
-              borderRadius: this.state.size / 2,
-              backgroundColor: this.state.anim.interpolate({
-                inputRange: [0, 1],
-                outputRange: [this.props.buttonColor, this.state.btnOutRange]
-              }),
-              transform: [{
-                  scale: this.state.anim.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: [1, this.props.outRangeScale]
-                  }),
-                }, {
-                  rotate: this.state.anim.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ['0deg', this.props.degrees + 'deg']
-                  })
-                }],
-            }]}>
+            style={[styles.btn,
+                    {
+                      width: this.state.size,
+                      height: this.state.size,
+                      borderRadius: this.state.size / 2,
+                      backgroundColor: this.state.anim.interpolate({
+                        inputRange: [0, 1],
+                        outputRange: [this.props.buttonColor, this.state.btnOutRange]
+                      }),
+                      transform: [
+                        {
+                          scale: this.state.anim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: [1, this.props.outRangeScale]
+                          }),
+                        },
+                        {
+                          rotate: this.state.anim.interpolate({
+                            inputRange: [0, 1],
+                            outputRange: ['0deg', this.props.degrees + 'deg']
+                          }),
+                        }],
+                    }]}>
             {this._renderButtonIcon()}
           </Animated.View>
         </TouchableOpacity>
@@ -146,18 +166,22 @@ export default class ActionButton extends Component {
   }
 
   _renderButtonIcon() {
-    if (this.props.icon) return this.props.icon
+    if (this.props.icon) {
+      return this.props.icon;
+    }
 
     return (
-      <Animated.Text style={[styles.btnText, {
-        color: this.state.anim.interpolate({
-          inputRange: [0, 1],
-          outputRange: [this.props.buttonTextColor, this.state.btnOutRangeTxt]
-        })
-      }]}>
+      <Animated.Text
+        style={[styles.btnText,
+                {
+                  color: this.state.anim.interpolate({
+                    inputRange: [0, 1],
+                    outputRange: [this.props.buttonTextColor, this.state.btnOutRangeTxt]
+                  })
+                }]}>
         +
       </Animated.Text>
-    )
+    );
   }
 
   _renderActions() {
@@ -166,10 +190,10 @@ export default class ActionButton extends Component {
     const offset = (endRadian - startRadian) / 5;
     if (!this.state.active) return null;
 
-    let actionButtons = this.props.children
+    let actionButtons = this.props.children;
 
     if (!Array.isArray(this.props.children)) {
-      actionButtons = [this.props.children]
+      actionButtons = [this.props.children];
     }
 
     return (
@@ -194,7 +218,7 @@ export default class ActionButton extends Component {
                 ActionButton.props.onPress();
               }}
           />
-        )
+        );
       })
     );
   }
