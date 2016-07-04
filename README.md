@@ -77,23 +77,21 @@ Also this example uses `react-native-vector-icons` for the button Icons.
 ### Configuration
 
 ##### ActionButton:
-| Property      | Type          | Default             | Description |
-| ------------- |:-------------:|:------------:       | ----------- |
-| active        | boolean       | false               | action buttons visible or not
-| autoInactive  | boolean       | true                | Auto hide ActionButtons when ActionButton.Item is pressed.
-| position      | string        | "right" / "center"  | one of: `left` `center` and `right`
-| bgColor       | string        | "transparent"       | background color when ActionButtons are visible
-| buttonColor   | string        | "rgba(0,0,0,1)"     | background color of the +Button **(must be rgba value!)**
-| spacing       | number        | 20                  | spacing between the `ActionButton.Item`s
-| offsetX       | number        | 10 / 30             | offset to the sides of the screen
-| offsetY       | number        | 4 / 30              | offset to the bottom of the screen
-| btnOutRange   | string        | props.buttonColor   | button background color to animate to
-| outRangeScale | number        | 1                   | changes size of button during animation
-| onPress       | function      | null                | fires, when ActionButton is tapped
-| onLongPress   | function      | null                | fires, when ActionButton is long pressed
-| icon          | Component     | +                   | Custom component for ActionButton Icon
-| backdrop      | Component     | false               | Custom component for use as Backdrop (i.e. [BlurView](https://github.com/react-native-fellowship/react-native-blur#blur-view), [VibrancyView](https://github.com/react-native-fellowship/react-native-blur#vibrancy-view))
-| degrees       | number        | 135                 | degrees to rotate icon
+| Property       | Type          | Default             | Description |
+| -------------  |:-------------:|:------------:       | ----------- |
+| active         | boolean       | false               | action buttons visible or not
+| autoInactive   | boolean       | true                | Auto hide ActionButtons when ActionButton.Item is pressed.
+| position       | string        | "right" / "center"  | one of: `left` `center` and `right`
+| overlayColor   | string        | "transparent"       | color of overlay when ActionButtons are visible
+| buttonColor    | string        | "rgba(0,0,0,1)"     | background color of the +Button **(must be rgba value!)**
+| spacing        | number        | 20                  | spacing between the `ActionButton.Item`s
+| btnOutRange    | string        | props.buttonColor   | button background color to animate to
+| outRangeScale  | number        | 1                   | changes size of button during animation
+| onPress        | function      | null                | fires, when ActionButton is tapped
+| onLongPress    | function      | null                | fires, when ActionButton is long pressed
+| icon           | Component     | +                   | Custom component for ActionButton Icon
+| backdrop       | Component     | false               | Custom component for use as Backdrop (i.e. [BlurView](https://github.com/react-native-fellowship/react-native-blur#blur-view), [VibrancyView](https://github.com/react-native-fellowship/react-native-blur#vibrancy-view))
+| degrees        | number        | 135                 | degrees to rotate icon
 
 ##### ActionButton.Item:
 | Property      | Type          | Default             | Description |
