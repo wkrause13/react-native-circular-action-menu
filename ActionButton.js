@@ -208,19 +208,14 @@ export default class ActionButton extends Component {
   }
 
   _renderActions() {
+    if (!this.state.active) return null;
+
     const startRadian = this.state.startDegree * Math.PI / 180;
     const endRadian = this.state.endDegree * Math.PI / 180;
     const offset = (endRadian - startRadian) / 5;
-    if (!this.state.active) return null;
-
-    let actionButtons = this.props.children;
-
-    if (!Array.isArray(this.props.children)) {
-      actionButtons = [this.props.children];
-    }
 
     return (
-      actionButtons.map((ActionButton, index) => {
+      React.Children.map(this.props.children, (ActionButton, index) => {
         return (
           <ActionButtonItem
             key={index}
