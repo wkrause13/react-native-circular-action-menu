@@ -33,10 +33,10 @@ export default class ActionButton extends Component {
       startDegree: '180',
       endDegree: '0',
       radius: 100,
+      size: props.size || 42,
     }
 
     this.timeout = null;
-    this.setPositionAndSizeByType();
   }
 
   componentWillUnmount() {
@@ -49,53 +49,26 @@ export default class ActionButton extends Component {
     });
   }
 
-  setPositionAndSizeByType() {
-    let position, offsetX, offsetY, size;
-    position = 'center';
-    offsetX  = 10;
-    offsetY = 4;
-    size = 42;
-
-    this.state.position = this.props.position || position;
-    this.state.offsetX  = this.props.offsetX  || offsetX ;
-    this.state.offsetY  = this.props.offsetY  || offsetY;
-    this.state.size     = this.props.size     || size;
-  }
-
 
   //////////////////////
   // STYLESHEET GETTERS
   //////////////////////
 
-  getContainerStyles() {
-    return [styles.overlay, this.getOrientation(), this.getOffsetXY()];
-  }
-
   getActionButtonStyles() {
     return [styles.actionBarItem, this.getButtonSize(), styles.actionsCenter];
   }
 
-  getOrientation() {
-    return { alignItems: alignItemsMap[this.state.position] };
+  getActionsStyle() {
+    return [styles.actionsCenter, this.getButtonSize()];
   }
 
   getButtonSize() {
     return {
       width: this.state.size,
       height: this.state.size,
-    }
-  }
-
-  getOffsetXY() {
-    return {
-      paddingHorizontal: this.state.offsetX,
-      paddingBottom: this.state.offsetY
     };
   }
 
-  getActionsStyle() {
-    return [styles.actionsCenter, this.getButtonSize()];
-  }
 
 
   //////////////////////
@@ -133,7 +106,7 @@ export default class ActionButton extends Component {
         {backdrop}
         <View
           pointerEvents="box-none"
-          style={this.getContainerStyles()}
+          style={styles.overlay}
         >
           {this.props.children && this._renderActions()}
           {this._renderButton()}
@@ -251,7 +224,7 @@ export default class ActionButton extends Component {
 
     Animated.spring(this.state.anim, {
        toValue: 1,
-       duration: 250,
+       duration: 750,
     }).start();
 
     this.setState({ active: true });
@@ -260,7 +233,7 @@ export default class ActionButton extends Component {
   reset() {
     Animated.spring(this.state.anim, {
       toValue: 0,
-      duration: 250,
+      duration: 750,
     }).start();
 
     setTimeout(() => {
@@ -319,7 +292,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     shadowOpacity: 0.3,
     shadowOffset: {
-      width: 0, height: 1,
+      width: 0,
+      height: 1,
     },
     shadowColor: '#444',
     shadowRadius: 1,
