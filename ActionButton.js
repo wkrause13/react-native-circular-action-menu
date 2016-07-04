@@ -10,7 +10,7 @@ import {
   Easing,
   TouchableOpacity,
   PixelRatio,
-  TouchableHighlight,
+  TouchableWithoutFeedback,
 } from 'react-native';
 import ActionButtonItem from './ActionButtonItem';
 
@@ -103,15 +103,38 @@ export default class ActionButton extends Component {
   //////////////////////
 
   render() {
+    let backdrop;
+
+    if (this.state.active) {
+      backdrop = (
+        <TouchableWithoutFeedback
+          style={styles.overlay}
+          onPress={() => this.reset()}
+        >
+          <Animated.View
+            style={
+              {
+                backgroundColor: this.props.bgColor,
+                opacity: this.state.anim,
+                flex: 1,
+              }
+                  }
+          >
+            {this.props.backdrop}
+          </Animated.View>
+        </TouchableWithoutFeedback>
+      );
+    }
     return (
-      <View pointerEvents="box-none" style={styles.overlay}>
-        <Animated.View pointerEvents="none" style={[styles.overlay, {
-          backgroundColor: this.props.bgColor,
-          opacity: this.state.anim
-        }]}>
-          {this.props.backdrop}
-        </Animated.View>
-        <View pointerEvents="box-none" style={this.getContainerStyles()}>
+      <View
+        pointerEvents="box-none"
+        style={styles.overlay}
+      >
+        {backdrop}
+        <View
+          pointerEvents="box-none"
+          style={this.getContainerStyles()}
+        >
           {this.props.children && this._renderActions()}
           {this._renderButton()}
         </View>
