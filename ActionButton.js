@@ -14,27 +14,14 @@ import {
 } from 'react-native';
 import ActionButtonItem from './ActionButtonItem';
 
-const alignItemsMap = {
-  "center" : "center",
-  "left"  : "flex-start",
-  "right" : "flex-end"
-}
-
 export default class ActionButton extends Component {
 
   constructor(props) {
     super(props);
-
     this.state = {
       active: props.active,
-      btnOutRange: props.btnOutRange || props.buttonColor || 'rgba(0,0,0,1)',
-      btnOutRangeTxt: props.btnOutRangeTxt || props.buttonTextColor || 'rgba(255,255,255,1)',
       anim: new Animated.Value(props.active ? 1 : 0),
-      startDegree: '180',
-      endDegree: '0',
-      radius: 100,
-      size: props.size || 42,
-    }
+    };
 
     this.timeout = null;
   }
@@ -42,17 +29,6 @@ export default class ActionButton extends Component {
   componentWillUnmount() {
     clearTimeout(this.timeout);
   }
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({
-      ...nextProps,
-    });
-  }
-
-
-  //////////////////////
-  // STYLESHEET GETTERS
-  //////////////////////
 
   getActionButtonStyles() {
     return [styles.actionBarItem, this.getButtonSize(), styles.actionsCenter];
@@ -64,20 +40,13 @@ export default class ActionButton extends Component {
 
   getButtonSize() {
     return {
-      width: this.state.size,
-      height: this.state.size,
+      width: this.props.size,
+      height: this.props.size,
     };
   }
 
-
-
-  //////////////////////
-  // RENDER METHODS
-  //////////////////////
-
   render() {
     let backdrop;
-
     if (this.state.active) {
       backdrop = (
         <TouchableWithoutFeedback
@@ -108,14 +77,14 @@ export default class ActionButton extends Component {
           pointerEvents="box-none"
           style={styles.overlay}
         >
-          {this.props.children && this._renderActions()}
-          {this._renderButton()}
+          {this.props.children && this.renderActions()}
+          {this.renderButton()}
         </View>
       </View>
     );
   }
 
-  _renderButton() {
+  renderButton() {
     return (
       <View
         style={this.getActionButtonStyles()}
@@ -133,12 +102,12 @@ export default class ActionButton extends Component {
           <Animated.View
             style={[styles.btn,
                     {
-                      width: this.state.size,
-                      height: this.state.size,
-                      borderRadius: this.state.size / 2,
+                      width: this.props.size,
+                      height: this.props.size,
+                      borderRadius: this.props.size / 2,
                       backgroundColor: this.state.anim.interpolate({
                         inputRange: [0, 1],
-                        outputRange: [this.props.buttonColor, this.state.btnOutRange]
+                        outputRange: [this.props.buttonColor, this.props.btnOutRange]
                       }),
                       transform: [
                         {
@@ -154,14 +123,14 @@ export default class ActionButton extends Component {
                           }),
                         }],
                     }]}>
-            {this._renderButtonIcon()}
+            {this.renderButtonIcon()}
           </Animated.View>
         </TouchableOpacity>
       </View>
     );
   }
 
-  _renderButtonIcon() {
+  renderButtonIcon() {
     if (this.props.icon) {
       return this.props.icon;
     }
@@ -172,7 +141,7 @@ export default class ActionButton extends Component {
                 {
                   color: this.state.anim.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [this.props.buttonTextColor, this.state.btnOutRangeTxt]
+                    outputRange: [this.props.buttonTextColor, this.props.btnOutRangeTxt]
                   })
                 }]}>
         +
@@ -180,33 +149,33 @@ export default class ActionButton extends Component {
     );
   }
 
-  _renderActions() {
+  renderActions() {
     if (!this.state.active) return null;
 
-    const startRadian = this.state.startDegree * Math.PI / 180;
-    const endRadian = this.state.endDegree * Math.PI / 180;
+    const startRadian = this.props.startDegree * Math.PI / 180;
+    const endRadian = this.props.endDegree * Math.PI / 180;
     const offset = (endRadian - startRadian) / 5;
 
     return (
-      React.Children.map(this.props.children, (ActionButton, index) => {
+      React.Children.map(this.props.children, (button, index) => {
         return (
           <ActionButtonItem
             key={index}
-            position={this.state.position}
+            position={this.props.position}
             anim={this.state.anim}
-            size={this.state.size}
+            size={this.props.size}
             style={this.getActionsStyle()}
-            radius={this.state.radius}
+            radius={this.props.radius}
             angle={startRadian - index * offset}
-            btnColor={this.state.btnOutRange}
-            {...ActionButton.props}
+            btnColor={this.props.btnOutRange}
+            {...button.props}
             onPress={() => {
-                if (this.props.autoInactive){
+                if (this.props.autoInactive) {
                   this.timeout = setTimeout(() => {
                     this.reset();
                   }, 200);
                 }
-                ActionButton.props.onPress();
+                button.props.onPress();
               }}
           />
         );
@@ -214,17 +183,12 @@ export default class ActionButton extends Component {
     );
   }
 
-
-  //////////////////////
-  // Animation Methods
-  //////////////////////
-
   animateButton() {
     if (this.state.active) return this.reset();
 
     Animated.spring(this.state.anim, {
-       toValue: 1,
-       duration: 750,
+      toValue: 1,
+      duration: 750,
     }).start();
 
     this.setState({ active: true });
@@ -250,15 +214,17 @@ ActionButton.propTypes = {
   bgColor: PropTypes.string,
   buttonColor: PropTypes.string,
   buttonTextColor: PropTypes.string,
-  offsetX : PropTypes.number,
-  offsetY: PropTypes.number,
   size: PropTypes.number,
   autoInactive: PropTypes.bool,
   onPress: PropTypes.func,
   backdrop: PropTypes.oneOfType([
     PropTypes.bool,
-    PropTypes.object
-]),
+    PropTypes.object,
+  ]),
+  startDegree: PropTypes.number,
+  endDegree: PropTypes.number,
+  radius: PropTypes.number,
+  children: PropTypes.node,
 };
 
 ActionButton.defaultProps = {
@@ -270,7 +236,13 @@ ActionButton.defaultProps = {
   autoInactive: true,
   onPress: () => {},
   backdrop: false,
-  degrees: 135
+  degrees: 135,
+  size: 42,
+  startDegree: 180,
+  endDegree: 0,
+  radius: 100,
+  btnOutRange: 'rgba(0,0,0,1)',
+  btnOutRangeTxt: 'rgba(255,255,255,1)',
 };
 
 const styles = StyleSheet.create({
