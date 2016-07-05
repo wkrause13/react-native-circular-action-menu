@@ -1,7 +1,7 @@
 # react-native-circular-action-menu
 Path-esque circular action menu inspired by [CircularFloatingActionMenu](https://github.com/oguzbilgener/CircularFloatingActionMenu).
 
-![react-native-circular-action-menu demo](http://i.giphy.com/l0HlQYcV8J0TnDprW.gif)
+![react-native-circular-action-menu demo](http://i.giphy.com/3o6Zt6hNHOd3kVx4aY.gif)
 
 ### Installation
 ```bash
@@ -83,6 +83,7 @@ Also this example uses `react-native-vector-icons` for the button Icons.
 | active         | boolean       | false               | action buttons visible or not
 | autoInactive   | boolean       | true                | Auto hide ActionButtons when ActionButton.Item is pressed.
 | position       | string        |  "center"  | one of: `left` `center` and `right`
+| radiua | number | 100 | radius of menu
 | bgColor   | string        | "transparent"       | color of overlay when ActionButtons are visible
 | buttonColor    | string        | "rgba(0,0,0,1)"     | background color of the +Button **(must be rgba value!)**
 | btnOutRange    | string        | props.buttonColor   | button background color to animate to
