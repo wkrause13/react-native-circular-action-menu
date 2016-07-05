@@ -17,21 +17,21 @@ const alignMap = {
     alignItems: 'center',
     justifyContent: 'flex-end',
     startDegree: 180,
-    endDegree: 0,
+    endDegree: 360,
   },
 
   left: {
     alignItems: 'flex-start',
     justifyContent: 'flex-end',
-    startDegree: 90,
-    endDegree: 0,
+    startDegree: 270,
+    endDegree: 360,
   },
 
   right: {
     alignItems: 'flex-end',
     justifyContent: 'flex-end',
     startDegree: 180,
-    endDegree: 90,
+    endDegree: 270,
   },
 };
 
@@ -193,7 +193,7 @@ export default class ActionButton extends Component {
               anim={this.state.anim}
               size={this.props.itemSize}
               radius={this.props.radius}
-              angle={startRadian - index * offset}
+              angle={startRadian + index * offset}
               btnColor={this.props.btnOutRange}
               {...button.props}
               onPress={() => {
@@ -280,7 +280,7 @@ ActionButton.defaultProps = {
   bgColor: 'transparent',
   buttonColor: 'rgba(0,0,0,1)',
   buttonTextColor: 'rgba(255,255,255,1)',
-  position: 'left',
+  position: 'center',
   outRangeScale: 1,
   autoInactive: true,
   onPress: () => {},
