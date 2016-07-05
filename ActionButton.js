@@ -12,6 +12,29 @@ import {
 } from 'react-native';
 import ActionButtonItem from './ActionButtonItem';
 
+const alignMap = {
+  center: {
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    startDegree: 180,
+    endDegree: 0,
+  },
+
+  left: {
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
+    startDegree: 90,
+    endDegree: 0,
+  },
+
+  right: {
+    alignItems: 'flex-end',
+    justifyContent: 'flex-end',
+    startDegree: 180,
+    endDegree: 90,
+  },
+};
+
 export default class ActionButton extends Component {
 
   constructor(props) {
@@ -28,10 +51,17 @@ export default class ActionButton extends Component {
     clearTimeout(this.timeout);
   }
 
-  getActionButtonStyles() {
+  getActionButtonStyle() {
     return [styles.actionBarItem, this.getButtonSize()];
   }
 
+  getActionContainerStyle() {
+    const {alignItems, justifyContent} = alignMap[this.props.position];
+    return [styles.overlay, styles.actionContainer, {
+      alignItems,
+      justifyContent,
+    }];
+  }
   getActionsStyle() {
     return [this.getButtonSize()];
   }
@@ -72,7 +102,7 @@ export default class ActionButton extends Component {
   renderButton() {
     return (
       <View
-        style={this.getActionButtonStyles()}
+        style={this.getActionButtonStyle()}
       >
         <TouchableOpacity
           activeOpacity={0.85}
@@ -138,10 +168,16 @@ export default class ActionButton extends Component {
 
   renderActions() {
     if (!this.state.active) return null;
+    const startDegree = this.props.startDegree || alignMap[this.props.position].startDegree;
+    const endDegree = this.props.endDegree || alignMap[this.props.position].endDegree;
+    const startRadian = startDegree * Math.PI / 180;
+    const endRadian = endDegree * Math.PI / 180;
 
-    const startRadian = this.props.startDegree * Math.PI / 180;
-    const endRadian = this.props.endDegree * Math.PI / 180;
-    const offset = (endRadian - startRadian) / 5;
+    const childrenCount = React.Children.count(this.props.children);
+    let offset = 0;
+    if (childrenCount !== 1) {
+      offset = (endRadian - startRadian) / (childrenCount - 1);
+    }
 
     return (
       React.Children.map(this.props.children, (button, index) => {
@@ -149,7 +185,7 @@ export default class ActionButton extends Component {
 
           <View
             pointerEvents="box-none"
-            style={[styles.overlay, styles.actionContainer]}
+            style={this.getActionContainerStyle()}
           >
             <ActionButtonItem
               key={index}
@@ -208,7 +244,7 @@ export default class ActionButton extends Component {
         {this.props.children && this.renderActions()}
         <View
           pointerEvents="box-none"
-          style={[styles.overlay, styles.actionContainer]}
+          style={this.getActionContainerStyle()}
         >
           {this.renderButton()}
         </View>
@@ -221,7 +257,6 @@ ActionButton.Item = ActionButtonItem;
 
 ActionButton.propTypes = {
   active: PropTypes.bool,
-  position: PropTypes.string,
   bgColor: PropTypes.string,
   buttonColor: PropTypes.string,
   buttonTextColor: PropTypes.string,
@@ -237,6 +272,7 @@ ActionButton.propTypes = {
   endDegree: PropTypes.number,
   radius: PropTypes.number,
   children: PropTypes.node,
+  position: PropTypes.oneOf(['left', 'center', 'right']),
 };
 
 ActionButton.defaultProps = {
@@ -244,6 +280,7 @@ ActionButton.defaultProps = {
   bgColor: 'transparent',
   buttonColor: 'rgba(0,0,0,1)',
   buttonTextColor: 'rgba(255,255,255,1)',
+  position: 'left',
   outRangeScale: 1,
   autoInactive: true,
   onPress: () => {},
@@ -251,8 +288,6 @@ ActionButton.defaultProps = {
   degrees: 135,
   size: 63,
   itemSize: 36,
-  startDegree: 180,
-  endDegree: 0,
   radius: 100,
   btnOutRange: 'rgba(0,0,0,1)',
   btnOutRangeTxt: 'rgba(255,255,255,1)',
@@ -269,8 +304,6 @@ const styles = StyleSheet.create({
   },
   actionContainer: {
     flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
     padding: 10,
   },
   actionBarItem: {
