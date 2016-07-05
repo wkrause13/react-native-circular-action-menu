@@ -82,10 +82,9 @@ Also this example uses `react-native-vector-icons` for the button Icons.
 | -------------  |:-------------:|:------------:       | ----------- |
 | active         | boolean       | false               | action buttons visible or not
 | autoInactive   | boolean       | true                | Auto hide ActionButtons when ActionButton.Item is pressed.
-| position       | string        | "right" / "center"  | one of: `left` `center` and `right`
-| overlayColor   | string        | "transparent"       | color of overlay when ActionButtons are visible
+| position       | string        |  "center"  | one of: `left` `center` and `right`
+| bgColor   | string        | "transparent"       | color of overlay when ActionButtons are visible
 | buttonColor    | string        | "rgba(0,0,0,1)"     | background color of the +Button **(must be rgba value!)**
-| spacing        | number        | 20                  | spacing between the `ActionButton.Item`s
 | btnOutRange    | string        | props.buttonColor   | button background color to animate to
 | outRangeScale  | number        | 1                   | changes size of button during animation
 | onPress        | function      | null                | fires, when ActionButton is tapped

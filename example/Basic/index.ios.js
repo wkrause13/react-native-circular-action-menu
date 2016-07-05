@@ -1,6 +1,6 @@
 /**
- * Basic example of react native action button
- * https://github.com/mastermoo/react-native-action-button
+ * Basic example of react native circular action menu
+ * https://github.com/geremih/react-native-circular-action-menu
  */
 
 import React, {
@@ -11,7 +11,7 @@ import React, {
   View
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
-import ActionButton from 'react-native-action-button';
+import ActionButton from 'react-native-circular-action-menu';
 
 class Basic extends Component {
   render() {
@@ -21,13 +21,13 @@ class Basic extends Component {
           Basic Example
         </Text>
         <ActionButton buttonColor="rgba(231,76,60,1)">
-          <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() => console.log("notes tapped!")}>
+          <ActionButton.Item buttonColor='#9b59b6'  onPress={() => console.log("notes tapped!")}>
             <Icon name="android-create" style={styles.actionButtonIcon} />
           </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="Notifications" onPress={() => {}}>
+          <ActionButton.Item buttonColor='#3498db' onPress={() => {}}>
             <Icon name="android-notifications-none" style={styles.actionButtonIcon} />
           </ActionButton.Item>
-          <ActionButton.Item buttonColor='#1abc9c' title="All Tasks" onPress={() => {}}>
+          <ActionButton.Item buttonColor='#1abc9c'  onPress={() => {}}>
             <Icon name="android-done-all" style={styles.actionButtonIcon} />
           </ActionButton.Item>
         </ActionButton>
