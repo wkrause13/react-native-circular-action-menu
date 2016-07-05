@@ -12,11 +12,11 @@ import {
 export default class ActionButtonItem extends Component {
 
   render() {
-    const offsetX = this.props.radius * Math.cos(this.props.angle) + this.props.size/2;
+    const offsetX = this.props.radius * Math.cos(this.props.angle);
     const offsetY = this.props.radius * Math.sin(this.props.angle);
     return (
       <Animated.View
-        style={[this.props.style, {
+        style={[{
             opacity: this.props.anim,
             width: this.props.size,
             height: this.props.size,

@@ -29,11 +29,11 @@ export default class ActionButton extends Component {
   }
 
   getActionButtonStyles() {
-    return [styles.actionBarItem, this.getButtonSize(), styles.actionsCenter];
+    return [styles.actionBarItem, this.getButtonSize()];
   }
 
   getActionsStyle() {
-    return [styles.actionsCenter, this.getButtonSize()];
+    return [this.getButtonSize()];
   }
 
   getButtonSize() {
@@ -146,25 +146,30 @@ export default class ActionButton extends Component {
     return (
       React.Children.map(this.props.children, (button, index) => {
         return (
-          <ActionButtonItem
-            key={index}
-            position={this.props.position}
-            anim={this.state.anim}
-            size={this.props.itemSize}
-            style={this.getActionsStyle()}
-            radius={this.props.radius}
-            angle={startRadian - index * offset}
-            btnColor={this.props.btnOutRange}
-            {...button.props}
-            onPress={() => {
-                if (this.props.autoInactive) {
-                  this.timeout = setTimeout(() => {
-                    this.reset();
-                  }, 200);
-                }
-                button.props.onPress();
-              }}
-          />
+
+          <View
+            pointerEvents="box-none"
+            style={[styles.overlay, styles.actionContainer]}
+          >
+            <ActionButtonItem
+              key={index}
+              position={this.props.position}
+              anim={this.state.anim}
+              size={this.props.itemSize}
+              radius={this.props.radius}
+              angle={startRadian - index * offset}
+              btnColor={this.props.btnOutRange}
+              {...button.props}
+              onPress={() => {
+                  if (this.props.autoInactive) {
+                    this.timeout = setTimeout(() => {
+                      this.reset();
+                    }, 200);
+                  }
+                  button.props.onPress();
+                }}
+            />
+          </View>
         );
       })
     );
@@ -199,11 +204,12 @@ export default class ActionButton extends Component {
         style={styles.overlay}
       >
         {backdrop}
+
+        {this.props.children && this.renderActions()}
         <View
           pointerEvents="box-none"
-          style={styles.overlay}
+          style={[styles.overlay, styles.actionContainer]}
         >
-          {this.props.children && this.renderActions()}
           {this.renderButton()}
         </View>
       </View>
@@ -243,7 +249,7 @@ ActionButton.defaultProps = {
   onPress: () => {},
   backdrop: false,
   degrees: 135,
-  size: 72,
+  size: 63,
   itemSize: 36,
   startDegree: 180,
   endDegree: 0,
@@ -260,6 +266,12 @@ const styles = StyleSheet.create({
     right: 0,
     top: 0,
     backgroundColor: 'transparent',
+  },
+  actionContainer: {
+    flexDirection: 'column',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    padding: 10,
   },
   actionBarItem: {
     alignItems: 'center',
@@ -282,10 +294,5 @@ const styles = StyleSheet.create({
     fontSize: 24,
     backgroundColor: 'transparent',
     position: 'relative',
-  },
-  actionsCenter: {
-    position: 'absolute',
-    left: 150,
-    bottom: 20,
   },
 });
