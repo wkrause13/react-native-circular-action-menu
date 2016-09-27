@@ -218,7 +218,7 @@ export default class ActionButton extends Component {
       backdrop = (
         <TouchableWithoutFeedback
           style={styles.overlay}
-          onPress={() => this.reset()}
+          onPress={() => {this.reset(); this.props.onOverlayPress()}}
         >
           <Animated.View
             style={
@@ -264,6 +264,7 @@ ActionButton.propTypes = {
   itemSize: PropTypes.number,
   autoInactive: PropTypes.bool,
   onPress: PropTypes.func,
+  onOverlayPress: PropTypes.func,
   backdrop: PropTypes.oneOfType([
     PropTypes.bool,
     PropTypes.object,
@@ -284,6 +285,7 @@ ActionButton.defaultProps = {
   outRangeScale: 1,
   autoInactive: true,
   onPress: () => {},
+  onOverlayPress: () => {},
   backdrop: false,
   degrees: 135,
   size: 63,
